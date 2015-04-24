@@ -31,6 +31,7 @@ namespace Assets.Code
 
         public void CreateChunk(int x, int y, int z)
         {
+            //The coordinates of this chunk in the world
             var worldPos = new WorldPos(x, y, z);
 
             //Instantiate the chunk at the coordinates using the chunk prefab
@@ -46,6 +47,24 @@ namespace Assets.Code
 
             //Add it to the chunks dictionary with the position as the key
             Chunks.Add(worldPos, newChunk);
+
+            for (int xi = 0; xi < Chunk.ChunkSizeX; xi++)
+            {
+                for (int yi = 0; yi < Chunk.ChunkSizeY; yi++)
+                {
+                    for (int zi = 0; zi < Chunk.ChunkSizeZ; zi++)
+                    {
+                        if (yi <= 7)
+                        {
+                            SetBlock(x + xi, y + yi, z + zi, new BlockGrass());
+                        }
+                        else
+                        {
+                            SetBlock(x + xi, y + yi, z + zi, new BlockAir());
+                        }
+                    }
+                }
+            }
         }
 
         public Chunk GetChunk(int x, int y, int z)
@@ -88,7 +107,7 @@ namespace Assets.Code
             if (chunk != null)
             {
                 chunk.SetBlock(x - chunk.WorldPosition.X, y - chunk.WorldPosition.Y, z - chunk.WorldPosition.Z, block);
-                chunk._update = true;
+                chunk.ShouldUpdate = true;
             }
         }
     }

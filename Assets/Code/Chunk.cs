@@ -13,12 +13,12 @@ public class Chunk : MonoBehaviour
     public WorldPos WorldPosition;
 
     public static int ChunkSizeX = 16;
-    public static int ChunkSizeY = ChunkSizeX;
-    public static int ChunkSizeZ = 8;
+    public static int ChunkSizeY = 16;
+    public static int ChunkSizeZ = ChunkSizeX;
 
     private readonly Block[, ,] _blocks = new Block[ChunkSizeX, ChunkSizeY, ChunkSizeZ];
 
-    public bool _update = true;
+    public bool ShouldUpdate = true;
 
     private MeshFilter _filter;
     private MeshCollider _coll;
@@ -32,7 +32,11 @@ public class Chunk : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update () {
-	
+	    if (ShouldUpdate)
+	    {
+	        ShouldUpdate = false;
+            UpdateChunk();
+	    }
 	}
 
     public void SetBlock(int x, int y, int z, Block block)
